@@ -12,26 +12,26 @@ namespace DivideAndConquer
             Sort(list, 0, list.Count - 1);
         }
 
-        private static void Sort<T>(IList<T> list, int lowIndex, int highIndex)
+        private static void Sort<T>(IList<T> list, int low, int high)
             where T : IComparable<T>
         {
-            if (lowIndex < highIndex)
+            if (low < high)
             {
-                int partitionIndex = Partition(list, lowIndex, highIndex);
+                int partition = Partition(list, low, high);
 
-                Sort(list, lowIndex, partitionIndex - 1);
-                Sort(list, partitionIndex + 1, highIndex);
+                Sort(list, low, partition - 1);
+                Sort(list, partition + 1, high);
             }
         }
 
-        private static int Partition<T>(IList<T> list, int lowIndex, int highIndex)
+        private static int Partition<T>(IList<T> list, int low, int high)
             where T : IComparable<T>
         {
-            T pivot = list[highIndex];
+            T pivot = list[high];
 
-            int i = lowIndex - 1;
+            int i = low - 1;
 
-            for (int j = lowIndex; j <= highIndex - 1; j++)
+            for (int j = low; j <= high - 1; j++)
             {
                 if (list[j].CompareTo(pivot) < 0)
                 {
@@ -40,7 +40,7 @@ namespace DivideAndConquer
                 }
             }
 
-            list.Swap(i + 1, highIndex);
+            list.Swap(i + 1, high);
             return i + 1;
         }
     }

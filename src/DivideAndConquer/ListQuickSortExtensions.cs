@@ -36,12 +36,18 @@ namespace DivideAndConquer
                 if (list[j].CompareTo(pivot) < 0)
                 {
                     i++;
-                    list.Swap(i, j);
+                    Swap(list, i, j);
                 }
             }
 
-            list.Swap(i + 1, high);
+            Swap(list, i + 1, high);
             return i + 1;
+        }
+        private static void Swap<T>(IList<T> list, int index1, int index2)
+        {
+            T temp = list[index1];
+            list[index1] = list[index2];
+            list[index2] = temp;
         }
     }
 }

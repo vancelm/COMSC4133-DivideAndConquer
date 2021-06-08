@@ -41,9 +41,11 @@ namespace DivideAndConquer
         {
             List<int> list = new List<int>(smallIntList);
             WriteList(list);
+
             stopwatch.Restart();
             list.QuickSort();
             stopwatch.Stop();
+
             WriteList(list);
             Console.WriteLine("QuickSort (Small) Elapsed Time (ms): " + stopwatch.Elapsed.TotalMilliseconds);
         }
@@ -51,9 +53,11 @@ namespace DivideAndConquer
         private static void QuickSortTest2()
         {
             List<int> list = new List<int>(bigIntList);
+
             stopwatch.Restart();
             list.QuickSort();
             stopwatch.Stop();
+
             //WriteList(list);
             Console.WriteLine("QuickSort (Large) Elapsed Time (ms): " + stopwatch.Elapsed.TotalMilliseconds);
         }
@@ -62,9 +66,11 @@ namespace DivideAndConquer
         {
             List<int> list = new List<int>(smallIntList);
             WriteList(list);
+
             stopwatch.Restart();
             list.MergeSort();
             stopwatch.Stop();
+
             WriteList(list);
             Console.WriteLine("MergeSort (Small) Elapsed Time (ms): " + stopwatch.Elapsed.TotalMilliseconds);
         }
@@ -72,9 +78,11 @@ namespace DivideAndConquer
         private static void MergeSortTest2()
         {
             List<int> list = new List<int>(bigIntList);
+
             stopwatch.Restart();
             list.MergeSort();
             stopwatch.Stop();
+            
             //WriteList(list);
             Console.WriteLine("MergeSort (Large) Elapsed Time (ms): " + stopwatch.Elapsed.TotalMilliseconds);
         }

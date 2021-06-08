@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -8,7 +9,7 @@ namespace DivideAndConquer
     {
         private static Random random = new Random();
         private static Stopwatch stopwatch = new Stopwatch();
-        private static List<int> smallIntList;
+        private static IList<int> smallIntList;
         private static List<int> bigIntList;
 
         private static void Main(string[] args)
@@ -16,42 +17,67 @@ namespace DivideAndConquer
             Initialize();
             QuickSortTest1();
             QuickSortTest2();
+            MergeSortTest1();
+            MergeSortTest2();
+            
         }
         private static void Initialize()
         {
-            smallIntList = new List<int>();
-            for (int i = 0; i < 100; i++)
+            List<int> list1 = new List<int>();
+            for (int i = 0; i < 10; i++)
             {
-                smallIntList.Add(random.Next(100));
+                list1.Add(random.Next(100));
             }
+            smallIntList = list1;
 
-            bigIntList = new List<int>();
+            List<int> list2 = new List<int>();
             for (int i = 0; i < 10000; i++)
             {
-                bigIntList.Add(random.Next(10000));
+                list2.Add(random.Next(100));
             }
+            bigIntList = list2;
         }
 
         private static void QuickSortTest1()
         {
             List<int> list = new List<int>(smallIntList);
-            Console.WriteLine("Beginning QuickSort Small Test");
-            stopwatch.Start();
+            WriteList(list);
+            stopwatch.Restart();
             list.QuickSort();
             stopwatch.Stop();
             WriteList(list);
-            Console.WriteLine("Elapsed Time (ms): " + stopwatch.Elapsed.TotalMilliseconds);
+            Console.WriteLine("QuickSort (Small) Elapsed Time (ms): " + stopwatch.Elapsed.TotalMilliseconds);
         }
 
         private static void QuickSortTest2()
         {
             List<int> list = new List<int>(bigIntList);
-            Console.WriteLine("Beginning QuickSort Big Test");
-            stopwatch.Start();
+            stopwatch.Restart();
             list.QuickSort();
             stopwatch.Stop();
+            //WriteList(list);
+            Console.WriteLine("QuickSort (Large) Elapsed Time (ms): " + stopwatch.Elapsed.TotalMilliseconds);
+        }
+
+        private static void MergeSortTest1()
+        {
+            List<int> list = new List<int>(smallIntList);
             WriteList(list);
-            Console.WriteLine("Elapsed Time (ms): " + stopwatch.Elapsed.TotalMilliseconds);
+            stopwatch.Restart();
+            list.MergeSort();
+            stopwatch.Stop();
+            WriteList(list);
+            Console.WriteLine("MergeSort (Small) Elapsed Time (ms): " + stopwatch.Elapsed.TotalMilliseconds);
+        }
+
+        private static void MergeSortTest2()
+        {
+            List<int> list = new List<int>(bigIntList);
+            stopwatch.Restart();
+            list.MergeSort();
+            stopwatch.Stop();
+            //WriteList(list);
+            Console.WriteLine("MergeSort (Large) Elapsed Time (ms): " + stopwatch.Elapsed.TotalMilliseconds);
         }
 
         private static void WriteList<T>(IList<T> list)

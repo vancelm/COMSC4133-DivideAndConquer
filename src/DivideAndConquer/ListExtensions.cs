@@ -5,6 +5,8 @@ namespace DivideAndConquer
 {
     public static class ListQuickSortExtensions
     {
+        private static readonly Random random = new Random();
+
         private static void Swap<T>(this IList<T> list, int index1, int index2)
         {
             T temp = list[index1];
@@ -27,42 +29,51 @@ namespace DivideAndConquer
             }
         }
 
-        public static void QuickSort<T>(this IList<T> list)
+        public static void QuickSort<T>(this IList<T> list, bool randomPivot = true)
             where T : IComparable<T>
         {
-            QuickSort(list, 0, list.Count - 1);
+            QuickSort(list, 0, list.Count - 1, randomPivot);
         }
 
-        private static void QuickSort<T>(IList<T> list, int low, int high)
+        private static void QuickSort<T>(IList<T> list, int low, int high, bool randomPivot)
             where T : IComparable<T>
         {
             if (low < high)
             {
-                int partition = Partition(list, low, high);
+                int partition = Partition(list, low, high, randomPivot);
 
-                QuickSort(list, low, partition - 1);
-                QuickSort(list, partition + 1, high);
+                QuickSort(list, low, partition, randomPivot);
+                QuickSort(list, partition + 1, high, randomPivot);
             }
         }
 
-        private static int Partition<T>(IList<T> list, int low, int high)
+        private static int Partition<T>(IList<T> list, int low, int high, bool randomPivot)
             where T : IComparable<T>
         {
-            T pivot = list[high];
+            if (randomPivot)
+                list.Swap(random.Next(high - low) + low, low);
 
+            T pivot = list[low];
             int i = low - 1;
+            int j = high + 1;
 
-            for (int j = low; j <= high - 1; j++)
+            while (true)
             {
-                if (list[j].CompareTo(pivot) < 0)
+                do
                 {
                     i++;
-                    list.Swap(i, j);
-                }
-            }
+                } while (list[i].CompareTo(pivot) < 0);
 
-            list.Swap(i + 1, high);
-            return i + 1;
+                do
+                {
+                    j--;
+                } while (list[j].CompareTo(pivot) > 0);
+
+                if (i >= j)
+                    return j;
+
+                list.Swap(i, j);
+            }
         }
 
         public static void MergeSort<T>(this IList<T> list)
@@ -90,7 +101,8 @@ namespace DivideAndConquer
             int leftLength = middle - left + 1;
             int rightLength = right - middle;
 
-            int i, j;
+            int i;
+            int j;
 
             for (i = 0; i < leftLength; i++)
                 temp[i] = list[left + i];

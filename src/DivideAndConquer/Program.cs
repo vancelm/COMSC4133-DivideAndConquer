@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*******************************************************************************
+* Student: Vance Morgan
+* Instructor: Dr. Evert
+* Course: COMSC-4133.1410 Design/Analysis Comp Algorithms
+* Semester: Summer 2021
+* Assignment: Divide and Conquer
+*******************************************************************************/
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 

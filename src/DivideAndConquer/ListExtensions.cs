@@ -12,7 +12,7 @@ using System.Collections.Generic;
 namespace DivideAndConquer
 {
     /// <summary>
-    /// Provides various sorting extension methods to classes implementing IList<T>
+    /// Provides various sorting extension methods to lists.
     /// </summary>
     public static class ListQuickSortExtensions
     {

@@ -3,10 +3,20 @@ using System.Collections.Generic;
 
 namespace DivideAndConquer
 {
+    /// <summary>
+    /// Provides various sorting extension methods to classes implementing IList<T>
+    /// </summary>
     public static class ListQuickSortExtensions
     {
         private static readonly Random random = new Random();
 
+        /// <summary>
+        /// Swaps two elements within a list at the given indexes.
+        /// </summary>
+        /// <param name="list">The list containing the elements to swap.</param>
+        /// <param name="index1">The index of the first element.</param>
+        /// <param name="index2">The index of the second element.</param>
+        /// <typeparam name="T">The type of elements in the list.</typeparam>
         private static void Swap<T>(this IList<T> list, int index1, int index2)
         {
             T temp = list[index1];
@@ -14,6 +24,11 @@ namespace DivideAndConquer
             list[index2] = temp;
         }
 
+        /// <summary>
+        /// Sorts a list using the bubble sort algorithm.
+        /// </summary>
+        /// <param name="list">The list containing elements to be sorted.</param>
+        /// <typeparam name="T">The type of elements in the list.</typeparam>
         public static void BubbleSort<T>(this IList<T> list)
             where T : IComparable<T>
         {
@@ -29,6 +44,12 @@ namespace DivideAndConquer
             }
         }
 
+        /// <summary>
+        /// Sorts a list using a recursive quick sort algorithm.
+        /// </summary>
+        /// <param name="list">The list containing elements to be sorted.</param>
+        /// <param name="randomPivot">Specifies whether the quick sort pivot should be randomized.</param>
+        /// <typeparam name="T">The type of elements in the list.</typeparam>
         public static void QuickSort<T>(this IList<T> list, bool randomPivot = true)
             where T : IComparable<T>
         {
@@ -76,6 +97,11 @@ namespace DivideAndConquer
             }
         }
 
+        /// <summary>
+        /// Sorts a list using a recursive merge sort algorithm.
+        /// </summary>
+        /// <param name="list">The list containing elements to be sorted.</param>
+        /// <typeparam name="T">The type of elements in the list.</typeparam>
         public static void MergeSort<T>(this IList<T> list)
             where T : IComparable<T>
         {

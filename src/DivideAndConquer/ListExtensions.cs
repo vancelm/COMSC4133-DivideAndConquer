@@ -68,64 +68,66 @@ namespace DivideAndConquer
         public static void MergeSort<T>(this IList<T> list)
             where T : IComparable<T>
         {
-            MergeSort(list, 0, list.Count - 1);
+            T[] temp = new T[list.Count];
+            MergeSort(list, temp, 0, list.Count - 1);
         }
 
-        private static void MergeSort<T>(IList<T> list, int left, int right)
+        private static void MergeSort<T>(IList<T> list, T[] temp, int left, int right)
             where T : IComparable<T>
         {
             if (left < right)
             {
                 int middle = left + (right - left) / 2;
-                MergeSort(list, left, middle);
-                MergeSort(list, middle + 1, right);
-                Merge(list, left, middle, right);
+                MergeSort(list, temp, left, middle);
+                MergeSort(list, temp, middle + 1, right);
+                Merge(list, temp, left, middle, right);
             }
         }
 
-        private static void Merge<T>(IList<T> list, int left, int middle, int right)
+        private static void Merge<T>(IList<T> list, T[] temp, int left, int middle, int right)
             where T : IComparable<T>
         {
-            T[] leftList = new T[middle - left + 1];
-            T[] rightList = new T[right - middle];
+            int leftLength = middle - left + 1;
+            int rightLength = right - middle;
+
             int i, j;
 
-            for (i = 0; i < leftList.Length; i++)
-                leftList[i] = list[left + i];
+            for (i = 0; i < leftLength; i++)
+                temp[i] = list[left + i];
 
-            for (j = 0; j < rightList.Length; j++)
-                rightList[j] = list[middle + 1 + j];
+            for (j = 0; j < rightLength; j++)
+                temp[j + 1 + middle] = list[middle + 1 + j];
 
             i = 0;
             j = 0;
 
             int k = left;
-            while (i < leftList.Length && j < rightList.Length)
+            while (i < leftLength && j < rightLength)
             {
-                if (leftList[i].CompareTo(rightList[j]) <= 0)
+                if (temp[i].CompareTo(temp[j + 1 + middle]) <= 0)
                 {
-                    list[k] = leftList[i];
+                    list[k] = temp[i];
                     i++;
                 }
                 else
                 {
-                    list[k] = rightList[j];
+                    list[k] = temp[j + 1 + middle];
                     j++;
                 }
 
                 k++;
             }
 
-            while (i < leftList.Length)
+            while (i < leftLength)
             {
-                list[k] = leftList[i];
+                list[k] = temp[i];
                 i++;
                 k++;
             }
 
-            while (j < rightList.Length)
+            while (j < rightLength)
             {
-                list[k] = rightList[j];
+                list[k] = temp[j + 1 + middle];
                 j++;
                 k++;
             }

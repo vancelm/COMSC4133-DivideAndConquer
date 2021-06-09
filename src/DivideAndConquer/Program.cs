@@ -1,104 +1,105 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace DivideAndConquer
 {
     internal class Program
     {
-        private static Random random = new Random();
-        private static Stopwatch stopwatch = new Stopwatch();
-        private static IReadOnlyList<int> smallRandomList;
-        private static IReadOnlyList<int> mediumRandomList;
-        private static IReadOnlyList<int> largeRandomList;
-
-        private static IReadOnlyList<int> smallSequentialList;
-        private static IReadOnlyList<int> mediumSequentialList;
-        private static IReadOnlyList<int> largeSequentialList;
-
-        private static IReadOnlyList<int> smallReverseList;
-        private static IReadOnlyList<int> mediumReverseList;
-        private static IReadOnlyList<int> largeReverseList;
+        private static readonly Random random = new Random();
+        private static readonly Stopwatch stopwatch = new Stopwatch();
 
         private static void Main(string[] args)
         {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < 10; i++)
-            {
-                Initialize();
-
-                Console.WriteLine("Small random list: " + string.Join(", ", smallRandomList));
-                Console.WriteLine();
-
-                sb.Append(SortTest(new List<int>(smallRandomList), BubbleSort, true, nameof(smallRandomList), nameof(BubbleSort)) + ",");
-                sb.Append(SortTest(new List<int>(smallRandomList), QuickSort, true, nameof(smallRandomList), nameof(QuickSort)) + ",");
-                sb.Append(SortTest(new List<int>(smallRandomList), QuickSortRandom, true, nameof(smallRandomList), nameof(QuickSortRandom)) + ",");
-                sb.Append(SortTest(new List<int>(smallRandomList), MergeSort, true, nameof(smallRandomList), nameof(MergeSort)) + ",");
-
-                sb.Append(SortTest(new List<int>(mediumRandomList), BubbleSort, false, nameof(mediumRandomList), nameof(BubbleSort)) + ",");
-                sb.Append(SortTest(new List<int>(mediumRandomList), QuickSort, false, nameof(mediumRandomList), nameof(QuickSort)) + ",");
-                sb.Append(SortTest(new List<int>(mediumRandomList), QuickSortRandom, false, nameof(mediumRandomList), nameof(QuickSortRandom)) + ",");
-                sb.Append(SortTest(new List<int>(mediumRandomList), MergeSort, false, nameof(mediumRandomList), nameof(MergeSort)) + ",");
-
-                sb.Append(SortTest(new List<int>(largeRandomList), BubbleSort, false, nameof(largeRandomList), nameof(BubbleSort)) + ",");
-                sb.Append(SortTest(new List<int>(largeRandomList), QuickSort, false, nameof(largeRandomList), nameof(QuickSort)) + ",");
-                sb.Append(SortTest(new List<int>(largeRandomList), QuickSortRandom, false, nameof(largeRandomList), nameof(QuickSortRandom)) + ",");
-                sb.Append(SortTest(new List<int>(largeRandomList), MergeSort, false, nameof(largeRandomList), nameof(MergeSort)) + ",");
-
-                Console.WriteLine();
-                Console.WriteLine("----------");
-                Console.WriteLine("Small sequential list: " + string.Join(", ", smallSequentialList));
-                Console.WriteLine();
-                sb.Append(SortTest(new List<int>(smallSequentialList), BubbleSort, true, nameof(smallSequentialList), nameof(BubbleSort)) + ",");
-                sb.Append(SortTest(new List<int>(smallSequentialList), QuickSort, true, nameof(smallSequentialList), nameof(QuickSort)) + ",");
-                sb.Append(SortTest(new List<int>(smallSequentialList), QuickSortRandom, true, nameof(smallSequentialList), nameof(QuickSortRandom)) + ",");
-                sb.Append(SortTest(new List<int>(smallSequentialList), MergeSort, true, nameof(smallSequentialList), nameof(MergeSort)) + ",");
-
-                sb.Append(SortTest(new List<int>(mediumSequentialList), BubbleSort, false, nameof(mediumSequentialList), nameof(BubbleSort)) + ",");
-                sb.Append(SortTest(new List<int>(mediumSequentialList), QuickSort, false, nameof(mediumSequentialList), nameof(QuickSort)) + ",");
-                sb.Append(SortTest(new List<int>(mediumSequentialList), QuickSortRandom, false, nameof(mediumSequentialList), nameof(QuickSortRandom)) + ",");
-                sb.Append(SortTest(new List<int>(mediumSequentialList), MergeSort, false, nameof(mediumSequentialList), nameof(MergeSort)) + ",");
-
-                sb.Append(SortTest(new List<int>(largeSequentialList), BubbleSort, false, nameof(largeSequentialList), nameof(BubbleSort)) + ",");
-                sb.Append(SortTest(new List<int>(largeSequentialList), QuickSort, false, nameof(largeSequentialList), nameof(QuickSort)) + ",");
-                sb.Append(SortTest(new List<int>(largeSequentialList), QuickSortRandom, false, nameof(largeSequentialList), nameof(QuickSortRandom)) + ",");
-                sb.Append(SortTest(new List<int>(largeSequentialList), MergeSort, false, nameof(largeSequentialList), nameof(MergeSort)) + ",");
-
-
-                Console.WriteLine();
-                Console.WriteLine("----------");
-                Console.WriteLine("Small reverse list: " + string.Join(", ", smallReverseList));
-                Console.WriteLine();
-                sb.Append(SortTest(new List<int>(smallReverseList), BubbleSort, true, nameof(smallReverseList), nameof(BubbleSort)) + ",");
-                sb.Append(SortTest(new List<int>(smallReverseList), QuickSort, true, nameof(smallReverseList), nameof(QuickSort)) + ",");
-                sb.Append(SortTest(new List<int>(smallReverseList), QuickSortRandom, true, nameof(smallReverseList), nameof(QuickSortRandom)) + ",");
-                sb.Append(SortTest(new List<int>(smallReverseList), MergeSort, true, nameof(smallReverseList), nameof(MergeSort)) + ",");
-
-                sb.Append(SortTest(new List<int>(mediumReverseList), BubbleSort, false, nameof(mediumReverseList), nameof(BubbleSort)) + ",");
-                sb.Append(SortTest(new List<int>(mediumReverseList), QuickSort, false, nameof(mediumReverseList), nameof(QuickSort)) + ",");
-                sb.Append(SortTest(new List<int>(mediumReverseList), QuickSortRandom, false, nameof(mediumReverseList), nameof(QuickSortRandom)) + ",");
-                sb.Append(SortTest(new List<int>(mediumReverseList), MergeSort, false, nameof(mediumReverseList), nameof(MergeSort)) + ",");
-
-                sb.Append(SortTest(new List<int>(largeReverseList), BubbleSort, false, nameof(largeReverseList), nameof(BubbleSort)) + ",");
-                sb.Append(SortTest(new List<int>(largeReverseList), QuickSort, false, nameof(largeReverseList), nameof(QuickSort)) + ",");
-                sb.Append(SortTest(new List<int>(largeReverseList), QuickSortRandom, false, nameof(largeReverseList), nameof(QuickSortRandom)) + ",");
-                sb.Append(SortTest(new List<int>(largeReverseList), MergeSort, false, nameof(largeReverseList), nameof(MergeSort)) + "\r\n");
-            }
-            Console.WriteLine(sb.ToString());
+            Validate();
+            RunTests();
         }
 
-        private static double SortTest<T>(IList<T> list, Action<IList<T>> sort, bool showResults, string listName, string algorithmName)
+        private static void Validate()
+        {
+            List<int> unsortedList = GetRandomList(20);
+            List<int> sortedList = new List<int>(unsortedList);
+            sortedList.Sort(); // Assuming the built-in sort works ;)
+
+            Console.WriteLine("Unsorted: " + string.Join(",", unsortedList));
+            Console.WriteLine("Sorted: " + string.Join(",", sortedList));
+            ValidateList(sortedList, new List<int>(unsortedList), BubbleSort, nameof(BubbleSort));
+            ValidateList(sortedList, new List<int>(unsortedList), BubbleSort, nameof(QuickSort));
+            ValidateList(sortedList, new List<int>(unsortedList), BubbleSort, nameof(QuickSortRandom));
+            ValidateList(sortedList, new List<int>(unsortedList), BubbleSort, nameof(MergeSort));
+        }
+
+        private static void ValidateList<T>(IList<T> sortedList, IList<T> list, Action<IList<T>> sort, string name)
+        {
+            sort(list);
+            Console.Write(name + ": " + string.Join(",", list));
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (!list[i].Equals(sortedList[i]))
+                {
+                    Console.WriteLine(" <FAIL>");
+                    break;
+                }
+            }
+
+            Console.WriteLine(" <PASS>");
+        }
+
+        private static void RunTests()
+        {
+            int min = 500;
+            int max = 10000;
+            int increment = 500;
+            IList<int> list;
+
+            Console.WriteLine();
+            Console.WriteLine("Random");
+            Console.WriteLine("Size,Bubble,Quick,Quick Random,Merge,Framework");
+            for (int i = min; i <= max; i += increment)
+            {
+                list = GetRandomList(i);
+                Console.Write(i + ",");
+                Console.Write(SortTest(new List<int>(list), BubbleSort) + ",");
+                Console.Write(SortTest(new List<int>(list), QuickSort) + ",");
+                Console.Write(SortTest(new List<int>(list), QuickSortRandom) + ",");
+                Console.Write(SortTest(new List<int>(list), MergeSort) + ",");
+                Console.Write(SortTest(new List<int>(list), Sort) + "\r\n");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Sequential");
+            Console.WriteLine("Size,Bubble,Quick,Quick Random,Merge,Framework");
+            for (int i = min; i <= max; i += increment)
+            {
+                list = GetSequentialList(i);
+                Console.Write(i + ",");
+                Console.Write(SortTest(new List<int>(list), BubbleSort) + ",");
+                Console.Write(SortTest(new List<int>(list), QuickSort) + ",");
+                Console.Write(SortTest(new List<int>(list), QuickSortRandom) + ",");
+                Console.Write(SortTest(new List<int>(list), MergeSort) + ",");
+                Console.Write(SortTest(new List<int>(list), Sort) + "\r\n");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Reversed");
+            Console.WriteLine("Size,Bubble,Quick,Quick Random,Merge,Framework");
+            for (int i = min; i <= max; i += increment)
+            {
+                list = GetReverseList(i);
+                Console.Write(i + ",");
+                Console.Write(SortTest(new List<int>(list), BubbleSort) + ",");
+                Console.Write(SortTest(new List<int>(list), QuickSort) + ",");
+                Console.Write(SortTest(new List<int>(list), QuickSortRandom) + ",");
+                Console.Write(SortTest(new List<int>(list), MergeSort) + ",");
+                Console.Write(SortTest(new List<int>(list), Sort) + "\r\n");
+            }
+        }
+
+        private static double SortTest<T>(IList<T> list, Action<IList<T>> sort)
         {
             stopwatch.Restart();
             sort(list);
             stopwatch.Stop();
-            if (showResults)
-                Console.WriteLine("Results: " + string.Join(", ", list));
-
-            Console.WriteLine("{0} {1} elapsed time: {2}ms", listName, algorithmName, stopwatch.Elapsed.TotalMilliseconds);
-            Console.WriteLine();
-
             return stopwatch.Elapsed.TotalMilliseconds;
         }
 
@@ -131,26 +132,7 @@ namespace DivideAndConquer
             ((List<T>)list).Sort();
         }
 
-        private static void Initialize()
-        {
-            int small = 10;
-            int medium = 1000;
-            int large = 10000;
-
-            smallRandomList = GetRandomIntList(small);
-            smallSequentialList = GetSequentialList(small);
-            smallReverseList = GetReverseList(small);
-
-            mediumRandomList = GetRandomIntList(medium);
-            mediumSequentialList = GetSequentialList(medium);
-            mediumReverseList = GetReverseList(medium);
-
-            largeRandomList = GetRandomIntList(large);
-            largeSequentialList = GetSequentialList(large);
-            largeReverseList = GetReverseList(large);
-        }
-
-        private static List<int> GetRandomIntList(int count)
+        private static List<int> GetRandomList(int count)
         {
             List<int> list = new List<int>(count);
             for (int i = 0; i < count; i++)
@@ -165,10 +147,11 @@ namespace DivideAndConquer
                 list.Add(i);
             return list;
         }
+
         private static List<int> GetReverseList(int count)
         {
             List<int> list = new List<int>(count);
-            for (int i = count; i >= 0; i--)
+            for (int i = count; i > 0; i--)
                 list.Add(i);
             return list;
         }

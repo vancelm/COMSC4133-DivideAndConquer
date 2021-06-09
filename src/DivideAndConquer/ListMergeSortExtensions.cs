@@ -30,10 +30,10 @@ namespace DivideAndConquer
             T[] rightList = new T[right - middle];
             int i, j;
 
-            for (i = 0; i < leftList.Length; ++i)
+            for (i = 0; i < leftList.Length; i++)
                 leftList[i] = list[left + i];
 
-            for (j = 0; j < rightList.Length; ++j)
+            for (j = 0; j < rightList.Length; j++)
                 rightList[j] = list[middle + 1 + j];
 
             i = 0;

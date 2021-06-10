@@ -37,7 +37,7 @@ namespace DivideAndConquer
         /// <param name="index1">The index of the first element.</param>
         /// <param name="index2">The index of the second element.</param>
         /// <typeparam name="T">The type of elements in the list.</typeparam>
-        private static void Swap<T>(this IList<T> list, int index1, int index2)
+        private static void Swap<T>(this List<T> list, int index1, int index2)
         {
             T temp = list[index1];
             list[index1] = list[index2];
@@ -49,7 +49,7 @@ namespace DivideAndConquer
         /// </summary>
         /// <param name="list">The list containing elements to be sorted.</param>
         /// <typeparam name="T">The type of elements in the list.</typeparam>
-        public static void BubbleSort<T>(this IList<T> list)
+        public static void BubbleSort<T>(this List<T> list)
             where T : IComparable<T>
         {
             for (int i = 0; i < list.Count - 1; i++)
@@ -70,13 +70,13 @@ namespace DivideAndConquer
         /// <param name="list">The list containing elements to be sorted.</param>
         /// <param name="randomPivot">Specifies whether the quick sort pivot should be randomized.</param>
         /// <typeparam name="T">The type of elements in the list.</typeparam>
-        public static void QuickSort<T>(this IList<T> list)
+        public static void QuickSort<T>(this List<T> list)
             where T : IComparable<T>
         {
             QuickSort(list, 0, list.Count - 1);
         }
 
-        private static void QuickSort<T>(IList<T> list, int low, int high)
+        private static void QuickSort<T>(List<T> list, int low, int high)
             where T : IComparable<T>
         {
             if (low >= high)
@@ -88,7 +88,7 @@ namespace DivideAndConquer
             QuickSort(list, low, partition);
             QuickSort(list, partition + 1, high);
         }
-        private static int Partition<T>(IList<T> list, int low, int high)
+        private static int Partition<T>(List<T> list, int low, int high)
             where T : IComparable<T>
         {
             list.Swap(random.Next(low, high), low);
@@ -125,7 +125,7 @@ namespace DivideAndConquer
         /// </summary>
         /// <param name="list">The list containing elements to be sorted.</param>
         /// <typeparam name="T">The type of elements in the list.</typeparam>
-        public static void MergeSort<T>(this IList<T> list)
+        public static void MergeSort<T>(this List<T> list)
             where T : IComparable<T>
         {
             T[] leftArray = new T[list.Count / 2];
@@ -133,7 +133,7 @@ namespace DivideAndConquer
             MergeSort(list, leftArray, rightArray, 0, list.Count - 1);
         }
 
-        private static void MergeSort<T>(IList<T> list, T[] leftArray, T[] rightArray, int left, int right)
+        private static void MergeSort<T>(List<T> list, T[] leftArray, T[] rightArray, int left, int right)
             where T : IComparable<T>
         {
             if (left < right)
@@ -145,7 +145,7 @@ namespace DivideAndConquer
             }
         }
 
-        private static void Merge<T>(IList<T> list, T[] leftArray, T[] rightArray, int left, int middle, int right)
+        private static void Merge<T>(List<T> list, T[] leftArray, T[] rightArray, int left, int middle, int right)
             where T : IComparable<T>
         {
             int leftLength = middle - left + 1;

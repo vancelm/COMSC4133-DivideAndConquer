@@ -14,7 +14,7 @@ namespace DivideAndConquer
     /// <summary>
     /// Provides various sorting extension methods to lists.
     /// </summary>
-    public static class ListQuickSortExtensions
+    public static class ListExtensions
     {
         private static readonly Random random = new Random();
 

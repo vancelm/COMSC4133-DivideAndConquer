@@ -25,22 +25,28 @@ namespace DivideAndConquer
 
         private static void Validate()
         {
-            IList<int> unsortedList = GetRandomList(20);
+            List<int> unsortedList = GetRandomList(20);
             List<int> sortedList = new List<int>(unsortedList);
             sortedList.Sort(); // Assuming the built-in sort works ;)
 
             Console.WriteLine("Unsorted: " + string.Join(",", unsortedList));
             Console.WriteLine("Sorted: " + string.Join(",", sortedList));
 
-            ValidateList(sortedList, new List<int>(unsortedList), BubbleSort, "Bubble");
-            ValidateList(sortedList, new List<int>(unsortedList), QuickSort, "Quick");
-            ValidateList(sortedList, new List<int>(unsortedList), MergeSort, "Merge");
+            List<int> list = new List<int>(unsortedList);
+            ValidateSort(sortedList, list, () => list.BubbleSort(), "Bubble");
+
+            list = new List<int>(unsortedList);
+            ValidateSort(sortedList, list, () => list.QuickSort(), "Quick");
+
+            list = new List<int>(unsortedList);
+            ValidateSort(sortedList, list, () => list.MergeSort(), "Merge");
         }
 
-        private static void ValidateList<T>(IList<T> sortedList, IList<T> list, Action<IList<T>> sort, string name)
+        private static void ValidateSort<T>(List<T> sortedList, List<T> list, Action sort, string name)
         {
-            sort(list);
+            sort();
             Console.Write(name + ": " + string.Join(",", list));
+
             for (int i = 0; i < list.Count; i++)
             {
                 if (!list[i].Equals(sortedList[i]))
@@ -55,83 +61,41 @@ namespace DivideAndConquer
 
         private static void RunTests()
         {
-            int min = 10;
-            int max = 1000000000;
-            int increment = 10;
-            IList<int> list;
-
             Console.WriteLine();
             Console.WriteLine("Random");
-            Console.WriteLine("Size,Quick,Merge,Framework" /*"Size,Bubble,Quick,Quick Random,Merge,Framework"*/);
-            for (int i = min; i <= max; i *= increment)
-            {
-                list = GetRandomList(i);
-                Console.Write(i + ",");
-                //Console.Write(SortTest(new List<int>(list), BubbleSort) + ",");
-                Console.Write(SortTest(new List<int>(list), QuickSort) + ",");
-                Console.Write(SortTest(new List<int>(list), MergeSort) + ",");
-                Console.Write(SortTest(new List<int>(list), Sort) + "\r\n");
-            }
+            Test(GetRandomList);
 
             Console.WriteLine();
             Console.WriteLine("Sequential");
-            Console.WriteLine("Size,Quick,Merge,Framework" /*"Size,Bubble,Quick,Quick Random,Merge,Framework"*/);
-            for (int i = min; i <= max; i *= increment)
-            {
-                list = GetSequentialList(i);
-                Console.Write(i + ",");
-                //Console.Write(SortTest(new List<int>(list), BubbleSort) + ",");
-                Console.Write(SortTest(new List<int>(list), QuickSort) + ",");
-                Console.Write(SortTest(new List<int>(list), MergeSort) + ",");
-                Console.Write(SortTest(new List<int>(list), Sort) + "\r\n");
-            }
+            Test(GetSequentialList);
 
             Console.WriteLine();
             Console.WriteLine("Reversed");
-            Console.WriteLine("Size,Quick,Merge,Framework" /*"Size,Bubble,Quick,Quick Random,Merge,Framework"*/);
-            for (int i = min; i <= max; i *= increment)
+            Test(GetReverseList);
+        }
+
+        private static void Test(Func<int, List<int>> getList)
+        {
+            for (int i = 1; i <= 1000000000; i *= 10)
             {
-                list = GetReverseList(i);
+                List<int> list = getList(i);
                 Console.Write(i + ",");
-                //Console.Write(SortTest(new List<int>(list), BubbleSort) + ",");
-                Console.Write(SortTest(new List<int>(list), QuickSort) + ",");
-                Console.Write(SortTest(new List<int>(list), MergeSort) + ",");
-                Console.Write(SortTest(new List<int>(list), Sort) + "\r\n");
+                //Console.Write(SortTest(() => new List<int>(list).BubbleSort()) + ",");
+                Console.Write(SortTest(() => new List<int>(list).QuickSort()) + ",");
+                Console.Write(SortTest(() => new List<int>(list).MergeSort()) + ",");
+                Console.Write(SortTest(() => new List<int>(list).Sort()) + "\r\n");
             }
         }
 
-        private static double SortTest<T>(IList<T> list, Action<IList<T>> sort)
+        private static double SortTest(Action sort)
         {
             stopwatch.Restart();
-            sort(list);
+            sort();
             stopwatch.Stop();
             return stopwatch.Elapsed.TotalMilliseconds;
         }
 
-        private static void BubbleSort<T>(IList<T> list)
-            where T : IComparable<T>
-        {
-            list.BubbleSort();
-        }
-
-        private static void QuickSort<T>(IList<T> list)
-            where T : IComparable<T>
-        {
-            list.QuickSort();
-        }
-
-        private static void MergeSort<T>(IList<T> list)
-            where T : IComparable<T>
-        {
-            list.MergeSort();
-        }
-
-        private static void Sort<T>(IList<T> list)
-        {
-            ((List<T>)list).Sort();
-        }
-
-        private static IList<int> GetRandomList(int count)
+        private static List<int> GetRandomList(int count)
         {
             
             List<int> list = new List<int>(count);

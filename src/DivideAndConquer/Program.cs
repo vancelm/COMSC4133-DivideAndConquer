@@ -31,10 +31,11 @@ namespace DivideAndConquer
 
             Console.WriteLine("Unsorted: " + string.Join(",", unsortedList));
             Console.WriteLine("Sorted: " + string.Join(",", sortedList));
-            ValidateList(sortedList, new List<int>(unsortedList), BubbleSort, nameof(BubbleSort));
-            ValidateList(sortedList, new List<int>(unsortedList), BubbleSort, nameof(QuickSort));
-            ValidateList(sortedList, new List<int>(unsortedList), BubbleSort, nameof(QuickSortRandom));
-            ValidateList(sortedList, new List<int>(unsortedList), BubbleSort, nameof(MergeSort));
+
+            ValidateList(sortedList, new List<int>(unsortedList), BubbleSort, "Bubble");
+            ValidateList(sortedList, new List<int>(unsortedList), QuickSort, "Quick");
+            ValidateList(sortedList, new List<int>(unsortedList), QuickSortRandom, "Quick Random");
+            ValidateList(sortedList, new List<int>(unsortedList), MergeSort, "Merge");
         }
 
         private static void ValidateList<T>(IList<T> sortedList, IList<T> list, Action<IList<T>> sort, string name)
@@ -46,7 +47,7 @@ namespace DivideAndConquer
                 if (!list[i].Equals(sortedList[i]))
                 {
                     Console.WriteLine(" <FAIL>");
-                    break;
+                    return;
                 }
             }
 

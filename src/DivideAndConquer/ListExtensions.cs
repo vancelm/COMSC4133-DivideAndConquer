@@ -76,6 +76,7 @@ namespace DivideAndConquer
             QuickSort_Recursive(list, low, partition);
             QuickSort_Recursive(list, partition + 1, high);
         }
+
         private static int QuickSort_Partition<T>(IList<T> list, int low, int high)
             where T : IComparable<T>
         {

@@ -30,22 +30,22 @@ namespace DivideAndConquer
             sortedList.Sort(); // Assuming the built-in sort works ;)
 
             Console.WriteLine("Unsorted: " + string.Join(",", unsortedList));
-            Console.WriteLine("Sorted: " + string.Join(",", sortedList));
+            Console.WriteLine("Sorted:   " + string.Join(",", sortedList));
 
             List<int> list = new List<int>(unsortedList);
-            ValidateSort(sortedList, list, () => list.BubbleSort(), "Bubble");
+            ValidateSort(sortedList, list, () => list.BubbleSort(), "Bubble:   ");
 
             list = new List<int>(unsortedList);
-            ValidateSort(sortedList, list, () => list.QuickSort(), "Quick");
+            ValidateSort(sortedList, list, () => list.QuickSort(), "Quick:    ");
 
             list = new List<int>(unsortedList);
-            ValidateSort(sortedList, list, () => list.MergeSort(), "Merge");
+            ValidateSort(sortedList, list, () => list.MergeSort(), "Merge:    ");
         }
 
         private static void ValidateSort<T>(List<T> sortedList, List<T> list, Action sort, string name)
         {
             sort();
-            Console.Write(name + ": " + string.Join(",", list));
+            Console.Write(name + string.Join(",", list));
 
             for (int i = 0; i < list.Count; i++)
             {

@@ -1,2 +1,2 @@
-# ivide and Conqer
+# Divide and Conqer
 Analysis of some divide and conquer sort algorithms.

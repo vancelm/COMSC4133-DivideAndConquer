@@ -16,18 +16,6 @@ namespace DivideAndConquer
     /// </summary>
     public static class ListExtensions
     {
-        private struct QuickPosInfo
-        {
-            public readonly int Low;
-            public readonly int High;
-
-            public QuickPosInfo(int low, int high)
-            {
-                Low = low;
-                High = high;
-            }
-        }
-
         private static readonly Random random = new Random();
 
         /// <summary>
@@ -73,10 +61,10 @@ namespace DivideAndConquer
         public static void QuickSort<T>(this List<T> list)
             where T : IComparable<T>
         {
-            QuickSort(list, 0, list.Count - 1);
+            QuickSort_Recursive(list, 0, list.Count - 1);
         }
 
-        private static void QuickSort<T>(List<T> list, int low, int high)
+        private static void QuickSort_Recursive<T>(List<T> list, int low, int high)
             where T : IComparable<T>
         {
             if (low >= high)
@@ -84,11 +72,11 @@ namespace DivideAndConquer
                 return;
             }
 
-            int partition = Partition(list, low, high);
-            QuickSort(list, low, partition);
-            QuickSort(list, partition + 1, high);
+            int partition = QuickSort_Partition(list, low, high);
+            QuickSort_Recursive(list, low, partition);
+            QuickSort_Recursive(list, partition + 1, high);
         }
-        private static int Partition<T>(List<T> list, int low, int high)
+        private static int QuickSort_Partition<T>(List<T> list, int low, int high)
             where T : IComparable<T>
         {
             list.Swap(random.Next(low, high), low);
@@ -130,22 +118,22 @@ namespace DivideAndConquer
         {
             T[] leftArray = new T[list.Count / 2];
             T[] rightArray = new T[list.Count / 2];
-            MergeSort(list, leftArray, rightArray, 0, list.Count - 1);
+            MergeSort_Recursive(list, leftArray, rightArray, 0, list.Count - 1);
         }
 
-        private static void MergeSort<T>(List<T> list, T[] leftArray, T[] rightArray, int left, int right)
+        private static void MergeSort_Recursive<T>(List<T> list, T[] leftArray, T[] rightArray, int left, int right)
             where T : IComparable<T>
         {
             if (left < right)
             {
                 int middle = left + (right - left) / 2;
-                MergeSort(list, leftArray, rightArray, left, middle);
-                MergeSort(list, leftArray, rightArray, middle + 1, right);
-                Merge(list, leftArray, rightArray, left, middle, right);
+                MergeSort_Recursive(list, leftArray, rightArray, left, middle);
+                MergeSort_Recursive(list, leftArray, rightArray, middle + 1, right);
+                MergeSort_Merge(list, leftArray, rightArray, left, middle, right);
             }
         }
 
-        private static void Merge<T>(List<T> list, T[] leftArray, T[] rightArray, int left, int middle, int right)
+        private static void MergeSort_Merge<T>(List<T> list, T[] leftArray, T[] rightArray, int left, int middle, int right)
             where T : IComparable<T>
         {
             int leftLength = middle - left + 1;

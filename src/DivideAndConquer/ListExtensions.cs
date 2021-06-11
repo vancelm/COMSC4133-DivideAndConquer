@@ -25,7 +25,7 @@ namespace DivideAndConquer
         /// <param name="index1">The index of the first element.</param>
         /// <param name="index2">The index of the second element.</param>
         /// <typeparam name="T">The type of elements in the list.</typeparam>
-        private static void Swap<T>(this List<T> list, int index1, int index2)
+        private static void Swap<T>(this IList<T> list, int index1, int index2)
         {
             T temp = list[index1];
             list[index1] = list[index2];
@@ -37,7 +37,7 @@ namespace DivideAndConquer
         /// </summary>
         /// <param name="list">The list containing elements to be sorted.</param>
         /// <typeparam name="T">The type of elements in the list.</typeparam>
-        public static void BubbleSort<T>(this List<T> list)
+        public static void BubbleSort<T>(this IList<T> list)
             where T : IComparable<T>
         {
             for (int i = 0; i < list.Count - 1; i++)
@@ -58,13 +58,13 @@ namespace DivideAndConquer
         /// <param name="list">The list containing elements to be sorted.</param>
         /// <param name="randomPivot">Specifies whether the quick sort pivot should be randomized.</param>
         /// <typeparam name="T">The type of elements in the list.</typeparam>
-        public static void QuickSort<T>(this List<T> list)
+        public static void QuickSort<T>(this IList<T> list)
             where T : IComparable<T>
         {
             QuickSort_Recursive(list, 0, list.Count - 1);
         }
 
-        private static void QuickSort_Recursive<T>(List<T> list, int low, int high)
+        private static void QuickSort_Recursive<T>(IList<T> list, int low, int high)
             where T : IComparable<T>
         {
             if (low >= high)
@@ -76,7 +76,7 @@ namespace DivideAndConquer
             QuickSort_Recursive(list, low, partition);
             QuickSort_Recursive(list, partition + 1, high);
         }
-        private static int QuickSort_Partition<T>(List<T> list, int low, int high)
+        private static int QuickSort_Partition<T>(IList<T> list, int low, int high)
             where T : IComparable<T>
         {
             list.Swap(random.Next(low, high), low);
@@ -113,27 +113,26 @@ namespace DivideAndConquer
         /// </summary>
         /// <param name="list">The list containing elements to be sorted.</param>
         /// <typeparam name="T">The type of elements in the list.</typeparam>
-        public static void MergeSort<T>(this List<T> list)
+        public static void MergeSort<T>(this IList<T> list)
             where T : IComparable<T>
         {
-            T[] leftArray = new T[list.Count / 2];
-            T[] rightArray = new T[list.Count / 2];
-            MergeSort_Recursive(list, leftArray, rightArray, 0, list.Count - 1);
+            T[] tempArray = new T[list.Count];
+            MergeSort_Recursive(list, tempArray, 0, list.Count - 1);
         }
 
-        private static void MergeSort_Recursive<T>(List<T> list, T[] leftArray, T[] rightArray, int left, int right)
+        private static void MergeSort_Recursive<T>(IList<T> list, T[] tempArray, int left, int right)
             where T : IComparable<T>
         {
             if (left < right)
             {
                 int middle = left + (right - left) / 2;
-                MergeSort_Recursive(list, leftArray, rightArray, left, middle);
-                MergeSort_Recursive(list, leftArray, rightArray, middle + 1, right);
-                MergeSort_Merge(list, leftArray, rightArray, left, middle, right);
+                MergeSort_Recursive(list, tempArray, left, middle);
+                MergeSort_Recursive(list, tempArray, middle + 1, right);
+                MergeSort_Merge(list, tempArray, left, middle, right);
             }
         }
 
-        private static void MergeSort_Merge<T>(List<T> list, T[] leftArray, T[] rightArray, int left, int middle, int right)
+        private static void MergeSort_Merge<T>(IList<T> list, T[] tempArray, int left, int middle, int right)
             where T : IComparable<T>
         {
             int leftLength = middle - left + 1;
@@ -144,12 +143,12 @@ namespace DivideAndConquer
 
             for (i = 0; i < leftLength; i++)
             {
-                leftArray[i] = list[left + i];
+                tempArray[i] = list[left + i];
             }
 
             for (j = 0; j < rightLength; j++)
             {
-                rightArray[j] = list[middle + 1 + j];
+                tempArray[middle + 1 + j] = list[middle + 1 + j];
             }
 
             i = 0;
@@ -158,14 +157,14 @@ namespace DivideAndConquer
 
             while (i < leftLength && j < rightLength)
             {
-                if (leftArray[i].CompareTo(rightArray[j]) <= 0)
+                if (tempArray[i].CompareTo(tempArray[middle + 1 + j]) <= 0)
                 {
-                    list[k] = leftArray[i];
+                    list[k] = tempArray[i];
                     i++;
                 }
                 else
                 {
-                    list[k] = rightArray[j];
+                    list[k] = tempArray[middle + 1 + j];
                     j++;
                 }
 
@@ -174,14 +173,14 @@ namespace DivideAndConquer
 
             while (i < leftLength)
             {
-                list[k] = leftArray[i];
+                list[k] = tempArray[i];
                 i++;
                 k++;
             }
 
             while (j < rightLength)
             {
-                list[k] = rightArray[j];
+                list[k] = tempArray[middle + 1 + j];
                 j++;
                 k++;
             }
